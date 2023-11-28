@@ -1,7 +1,7 @@
 #!/usr/bin/python3
-def remove_char_at(str, n):
-    newstr = ""
-    for i, c in enumerate(str):
-        if i != n:
-            newstr += c
-            return newstr
+def remove_char_at(s, n):
+    if n < 0 or n >= len(s):
+        return "Invalid index"
+
+    
+    return s[:n] + s[n + 1:]
