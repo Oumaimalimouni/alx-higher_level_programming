@@ -1,17 +1,31 @@
 #!/usr/bin/python3
-"""Lists states"""
+"""
+Script that lists all values in the `states` table of `hbtn_0e_0_usa`
+where `name` matches the argument `state name searched`.
+Arguments:
+    mysql username (str)
+    mysql password (str)
+    database name (str)
+    state name searched (str)
+"""
 
+import sys
 import MySQLdb
-from sys import argv
 
 if __name__ == "__main__":
-    conn = MySQLdb.connect(host="localhost", port=3306, user=argv[1],
-                           passwd=argv[2], db=argv[3], charset="utf8")
-    cur = conn.cursor()
-    cur.execute("SELECT * FROM states WHERE name = %s ORDER BY states.id ASC",
-                (argv[4], ))
-    query_rows = cur.fetchall()
-    for row in query_rows:
+    mySQL_u = sys.argv[1]
+    mySQL_p = sys.argv[2]
+    db_name = sys.argv[3]
+
+    searched_name = sys.argv[4]
+
+    # By default, it will connect to localhost:3306
+    db = MySQLdb.connect(user=mySQL_u, passwd=mySQL_p, db=db_name)
+    cur = db.cursor()
+
+    cur.execute("SELECT * FROM states WHERE name = %s ORDER BY id",
+                (searched_name, ))
+    rows = cur.fetchall()
+
+    for row in rows:
         print(row)
-    cur.close()
-    conn.close()
